@@ -112,6 +112,20 @@ export class PerformanceMonitorService extends StatefulService<IMonitorState> {
     this.SET_STATE(currentStats);
   }
 
+  public pushWarningNotify(message: string) {
+    const code: TIssueCode = 'FRAMES_SKIPPED';
+    this.notificationsService.push({
+      code,
+      type: ENotificationType.WARNING,
+      data: message,
+      lifeTime: -1,
+      showTime: true,
+      // tslint:disable-next-line:prefer-template
+      message: $t(message),
+      action: null,
+    });
+  } 
+
   private pushSkippedFramesNotify(factor: number) {
     const code: TIssueCode = 'FRAMES_SKIPPED';
     this.notificationsService.push({

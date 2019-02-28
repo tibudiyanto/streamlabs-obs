@@ -94,14 +94,20 @@ export class AppService extends StatefulService<IAppState> {
       electron.remote.process.env.SLOBS_IPC_USERDATA,
     );
 
-    if (apiResult !== EVideoCodes.Success) {
-      const message = apiInitErrorResultToMessage(apiResult);
-      showDialog(message);
+    if (apiResult.resultCode !== EVideoCodes.Success) {
+      // const message = apiInitErrorResultToMessage(apiResult);
+      showDialog("Error");
 
       crashHandler.unregisterProcess(this.pid);
       electron.ipcRenderer.send('shutdownComplete');
 
       return;
+    } else {
+
+      let warningMessages = apiResult.warningMessages as Array<string>;
+      warningMessages.forEach(message => {
+        this.performanceMonitorService.pushWarningNotify(message);
+      });
     }
 
     // We want to start this as early as possible so that any
