@@ -5,7 +5,9 @@ const request = require('request');
 
 const USER_POOL_URL = `https://slobs-users-pool.herokuapp.com`;
 const USER_POOL_TOKEN = process.env.SLOBS_TEST_USER_POOL_TOKEN;
-let userName: string; // keep user's name if SLOBS is logged-in
+
+// keep user's name if SLOBS is logged-in, need this name to release the user back to the pool
+let userName: string;
 
 interface ITestUser {
   name: string; // must be unique
