@@ -20,8 +20,10 @@ export default class ListInput extends BaseInput<string, IListMetadata<string>> 
   readonly placeholder: string;
 
   mounted() {
+    console.log(typeof this.value);
+    console.log(this.options);
     if (!this.metadata.allowEmpty && !this.value) {
-      this.onInputHandler(this.options[0]);
+      this.onInputHandler(this.options.options[0]);
     }
   }
 
@@ -50,8 +52,7 @@ export default class ListInput extends BaseInput<string, IListMetadata<string>> 
     }
 
     if (option) return option;
-    if (!!this.getOptions().allowEmpty) return null;
-    return options[0];
+    return null;
   }
 
   get selectedOption(): IListOption<string> {
