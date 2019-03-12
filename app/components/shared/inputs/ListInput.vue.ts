@@ -19,6 +19,12 @@ export default class ListInput extends BaseInput<string, IListMetadata<string>> 
   @Prop({ default: 'Select Option' })
   readonly placeholder: string;
 
+  mounted() {
+    if (!this.metadata.allowEmpty && !this.value) {
+      this.onInputHandler(this.options[0]);
+    }
+  }
+
   onInputHandler(option: IListOption<string>) {
     if (option) {
       this.emitInput(option.value);
