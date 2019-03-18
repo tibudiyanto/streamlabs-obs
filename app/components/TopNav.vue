@@ -1,114 +1,135 @@
 <template>
-<div class="top-nav" ref="top_nav" :class="{ 'loading': loading, 'top-nav--compact': responsiveClass }">
-  <!--<button
+  <div
+    class="top-nav"
+    ref="top_nav"
+    :class="{ 'loading': loading, 'top-nav--compact': responsiveClass }"
+  >
+    <!--<button
       @click="navigateOnboarding"
       class="button button--action"
       :class="{ active: page === 'Onboarding' }">
       Onboarding
-  </button>-->
+    </button>-->
+    <resize-observer @notify="handleResize"></resize-observer>
 
-  <resize-observer @notify="handleResize"></resize-observer>
-
-  <div class="tabs">
-    <button
-      @click="navigateDashboard"
-      class="tab-button"
-      :class="{ active: page === 'Dashboard' }"
-      :disabled="!isUserLoggedIn || locked">
-      <i class="icon-dashboard"/> <span class="tab-button__text">{{ $t('Dashboard') }}</span>
-    </button>
-    <button
-      @click="navigateChatBot"
-      class="tab-button"
-      v-if="featureIsEnabled(availableFeatures.chatbot) && chatbotVisible"
-      :class="{ active: page === 'Chatbot'}"
-      :disabled="!isUserLoggedIn || locked">
-      <i class="icon-community"/> <span class="tab-button__text">{{ $t('Chatbot') }}</span>
-    </button>
-    <button
-      v-if="appStoreVisible"
-      @click="navigatePlatformAppStore"
-      class="tab-button"
-      :class="{ 'is-active': page === 'PlatformAppStore' }"
-      :disabled="!isUserLoggedIn || locked">
-      <i class="icon-store"/> <span class="tab-button__text">{{ $t('App Store') }}</span>
-      <span class="badge badge--new">{{ $t('New') }}</span>
-    </button>
-    <button
-      @click="navigateOverlays"
-      class="tab-button"
-      :class="{ 'is-active': page === 'BrowseOverlays' }"
-      :disabled="!isUserLoggedIn || locked">
-      <i class="icon-themes"/> <span class="tab-button__text">{{ $t('Themes') }}</span>
-    </button>
-    <button
-      @click="navigateStudio"
-      class="tab-button"
-      :class="{ 'is-active': page === 'Studio' }"
-      :disabled="locked">
-      <i class="icon-studio"/> <span class="tab-button__text">{{ $t('Editor') }}</span>
-    </button>
-    <button
-      @click="navigateLive"
-      class="tab-button"
-      :class="{ 'is-active': page === 'Live' }"
-      :disabled="!isUserLoggedIn || locked">
-      <i class="icon-live-dashboard"/> <span class="tab-button__text">{{ $t('Live') }}</span>
-    </button>
-  </div>
-
-  <div class="top-nav-right">
-
-    <div class="top-nav-item">
-      <button @click="toggleNightTheme" class="theme-toggle">
-        <div class="theme-toggle__bg"></div>
-        <img class="theme-toggle__icon theme-toggle__icon--moon" v-tooltip.right="moonTooltip" src="../../media/images/moon.png"/>
-        <img class="theme-toggle__icon theme-toggle__icon--sun" v-tooltip.right="sunTooltip" src="../../media/images/sun.png"/>
+    <div class="tabs">
+      <button
+        @click="navigateDashboard"
+        class="tab-button"
+        :class="{ active: page === 'Dashboard' }"
+        :disabled="!isUserLoggedIn || locked"
+      >
+        <i class="icon-dashboard"/>
+        <span class="tab-button__text">{{ $t('Dashboard') }}</span>
+      </button>
+      <button
+        @click="navigateChatBot"
+        class="tab-button"
+        v-if="featureIsEnabled(availableFeatures.chatbot) && chatbotVisible"
+        :class="{ active: page === 'Chatbot'}"
+        :disabled="!isUserLoggedIn || locked"
+      >
+        <i class="icon-community"/>
+        <span class="tab-button__text">{{ $t('Chatbot') }}</span>
+      </button>
+      <button
+        v-if="appStoreVisible"
+        @click="navigatePlatformAppStore"
+        class="tab-button"
+        :class="{ 'is-active': page === 'PlatformAppStore' }"
+        :disabled="!isUserLoggedIn || locked"
+      >
+        <i class="icon-store"/>
+        <span class="tab-button__text">{{ $t('App Store') }}</span>
+        <span class="badge badge--new">{{ $t('New') }}</span>
+      </button>
+      <button
+        @click="navigateOverlays"
+        class="tab-button"
+        :class="{ 'is-active': page === 'BrowseOverlays' }"
+        :disabled="!isUserLoggedIn || locked"
+      >
+        <i class="icon-themes"/>
+        <span class="tab-button__text">{{ $t('Themes') }}</span>
+      </button>
+      <button
+        @click="navigateStudio"
+        class="tab-button"
+        :class="{ 'is-active': page === 'Studio' }"
+        :disabled="locked"
+      >
+        <i class="icon-studio"/>
+        <span class="tab-button__text">{{ $t('Editor') }}</span>
+      </button>
+      <button
+        @click="navigateLive"
+        class="tab-button"
+        :class="{ 'is-active': page === 'Live' }"
+        :disabled="!isUserLoggedIn || locked"
+      >
+        <i class="icon-live-dashboard"/>
+        <span class="tab-button__text">{{ $t('Live') }}</span>
       </button>
     </div>
-    <div class="top-nav-item" v-if="isDevMode" style="z-index: 99999">
-      <a class="link" @click="openDevTools">Dev Tools</a>
+
+    <div class="top-nav-right">
+      <div class="top-nav-item">
+        <button @click="toggleNightTheme" class="theme-toggle">
+          <div class="theme-toggle__bg"></div>
+          <img
+            class="theme-toggle__icon theme-toggle__icon--moon"
+            v-tooltip.right="moonTooltip"
+            src="../../media/images/moon.png"
+          >
+          <img
+            class="theme-toggle__icon theme-toggle__icon--sun"
+            v-tooltip.right="sunTooltip"
+            src="../../media/images/sun.png"
+          >
+        </button>
+      </div>
+      <div class="top-nav-item" v-if="isDevMode" style="z-index: 99999">
+        <a class="link" @click="openDevTools">Dev Tools</a>
+      </div>
+      <div class="top-nav-item" v-if="isDevMode">
+        <a class="link" @click="navigateDesignSystem">Design System</a>
+      </div>
+      <div class="top-nav-item" :class="{ 'top-nav-item--active': studioModeEnabled }">
+        <a @click="studioMode" class="link">
+          <i class="icon-studio-mode-3" v-tooltip.right="studioModeTooltip"/>
+          <span>{{ $t('Studio Mode') }}</span>
+        </a>
+      </div>
+      <div
+        v-if="isUserLoggedIn"
+        class="top-nav-item"
+        :class="{ 'top-nav-item--active': facemasksActive }"
+      >
+        <a @click="openFacemaskSettingsWindow" class="link">
+          <i class="icon-face-masks-3" v-tooltip.right="facemasksTooltip"/>
+          <span>{{ $t('Face Masks') }}</span>
+        </a>
+      </div>
+      <div class="top-nav-item">
+        <a @click="navigateHelp" class="link">
+          <i class="icon-question" v-tooltip.right="helpTooltip"></i>
+          <span>{{ $t('Help') }}</span>
+        </a>
+      </div>
+      <div class="top-nav-item">
+        <a @click="openSettingsWindow" class="link">
+          <i class="icon-settings" v-tooltip.right="settingsTooltip"/>
+          <span>{{ $t('Settings') }}</span>
+        </a>
+      </div>
+      <div class="top-nav-item" v-if="isUserLoggedIn" v-tooltip.right="logoutTooltip">
+        <login/>
+      </div>
+      <div class="top-nav-item" v-else>
+        <login/>
+      </div>
     </div>
-    <div class="top-nav-item" v-if="isDevMode">
-      <a class="link" @click="navigateDesignSystem">Design System</a>
-    </div>
-    <div class="top-nav-item" :class="{ 'top-nav-item--active': studioModeEnabled }">
-      <a
-        @click="studioMode"
-        class="link">
-        <i class="icon-studio-mode-3" v-tooltip.right="studioModeTooltip" /><span>{{ $t('Studio Mode') }}</span>
-      </a>
-    </div>
-    <div v-if="isUserLoggedIn" class="top-nav-item" :class="{ 'top-nav-item--active': facemasksActive }">
-      <a
-        @click="openFacemaskSettingsWindow"
-        class="link">
-        <i class="icon-face-masks" v-tooltip.right="facemasksTooltip" /><span>{{ $t('Face Masks') }}</span>
-      </a>
-    </div>
-    <div class="top-nav-item">
-      <a
-        @click="navigateHelp"
-        class="link">
-        <i class="icon-question" v-tooltip.right="helpTooltip"></i>
-        <span>{{ $t('Help') }}</span>
-      </a>
-    </div>
-    <div class="top-nav-item">
-      <a
-        @click="openSettingsWindow"
-        class="link">
-        <i class="icon-settings" v-tooltip.right="settingsTooltip"/><span>{{ $t('Settings') }}</span>
-      </a>
-    </div>
-    <div class="top-nav-item" v-if="isUserLoggedIn" v-tooltip.right="logoutTooltip">
-      <login/>
   </div>
-  <div class="top-nav-item" v-else>
-      <login/>
-  </div>
- </div>
-</div>
 </template>
 
 <script lang="ts" src="./TopNav.vue.ts"></script>
