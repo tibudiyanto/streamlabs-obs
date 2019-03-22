@@ -59,8 +59,11 @@ export class ChatService extends Service {
   private initChat() {
     if (this.chatView) return;
 
+    const partition = this.userService.state.auth.partition;
+
     this.chatView = new electron.remote.BrowserView({
       webPreferences: {
+        partition,
         nodeIntegration: false,
       },
     });
@@ -99,8 +102,10 @@ export class ChatService extends Service {
   }
 
   private bindWindowListener() {
-    this.chatView.webContents.on('new-window', evt => {
-      const parsedUrl = url.parse(evt['url']);
+    electron.ipcRenderer.send('webContents-preventPopup', this.chatView.webContents.id);
+
+    this.chatView.webContents.on('new-window', (evt, targetUrl) => {
+      const parsedUrl = url.parse(targetUrl);
       const protocol = parsedUrl.protocol;
 
       if (protocol === 'http:' || protocol === 'https:') {
@@ -123,7 +128,7 @@ export class ChatService extends Service {
             'ffz-settings',
           );
         } else {
-          electron.remote.shell.openExternal(evt['url']);
+          electron.remote.shell.openExternal(targetUrl);
         }
       }
     });
