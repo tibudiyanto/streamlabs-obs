@@ -59,7 +59,7 @@
   position: relative;
   .padding-h-sides(2);
   .padding-v-sides();
-  background-color: @day-section;
+  border-top: 1px solid @day-border;
   max-width: none;
   flex: 0 0 auto;
 }
@@ -179,9 +179,8 @@
 
 .night-theme {
   .footer {
-    background-color: @night-section;
+    border-color: @night-border
   }
-
   .error-wrapper {
     background-color: @night-primary;
   }

@@ -268,11 +268,14 @@ a,
 .tab-button {
   background-color: transparent;
   border: 0;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   height: 48px;
   .margin-right(2);
   .link--capitalize();
 
+  &:hover {
+    border-bottom-color: @dark-2;
+  }
   &:focus {
     outline: 0;
   }
