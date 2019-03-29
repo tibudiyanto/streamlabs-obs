@@ -34,6 +34,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   cdn = `https://${this.hostsService.facemaskCDN}`;
   facemaskFilter: obs.IFilter = null;
   socketConnectionActive = false;
+  applyingFilter = false;
 
   registeredDonations = {};
   registeredSubscriptions = {};
@@ -513,10 +514,11 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   }
 
   updateFilterReference(dshowInputs: Source[]) {
-    if (dshowInputs.length) {
+    if (dshowInputs.length && !this.applyingFilter) {
       const matches = dshowInputs.filter(videoInput => {
         return videoInput.getObsInput().settings.video_device_id === this.state.device.value;
       });
+      this.applyingFilter = true;
 
       if (matches.length === 1) {
         const slobsSource = matches[0];
@@ -550,6 +552,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
     } else {
       this.facemaskFilter = null;
     }
+    this.applyingFilter = false;
   }
 
   ensureModtimes(data: Interfaces.IFacemask[]) {
