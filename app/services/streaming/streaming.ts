@@ -94,9 +94,9 @@ export class StreamingService extends StatefulService<IStreamingServiceState>
   };
 
   init() {
-    obs.NodeObs.OBS_service_connectOutputSignals((info: IOBSOutputSignalInfo) => {
-      this.handleOBSOutputSignal(info);
-    });
+    // obs.NodeObs.OBS_service_connectOutputSignals((info: IOBSOutputSignalInfo) => {
+    //   this.handleOBSOutputSignal(info);
+    // });
   }
 
   getModel() {

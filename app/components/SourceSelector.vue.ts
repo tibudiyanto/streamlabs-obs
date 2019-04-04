@@ -165,7 +165,6 @@ export default class SourceSelector extends Vue {
     } else if (position.placement === 'inside') {
       nodesToMove.setParent(destNode.id);
     }
-    this.selectionService.select(nodesToMove.getIds());
   }
 
   makeActive(treeNodes: ISlTreeNode<ISceneItemNode>[], ev: MouseEvent) {

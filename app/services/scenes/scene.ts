@@ -229,10 +229,20 @@ export class Scene {
     this.getItems().forEach(item => item.setSettings({ locked }));
   }
 
+  /**
+   * Place the source scene node immediately after the destination node
+   * @param sourceNodeId The scene item to place
+   * @param destNodeId The node we should place after
+   */
   placeAfter(sourceNodeId: string, destNodeId?: string) {
+    obs.NodeObs.log('===================================');
+    obs.NodeObs.log('Start placeAfter');
+    obs.NodeObs.log('===================================');
+
     const sourceNode = this.getNode(sourceNodeId);
     const destNode = this.getNode(destNodeId);
 
+    // Placing a node after itself is impossible
     if (destNode && destNode.id === sourceNode.id) return;
 
     const destNodeIsParentForSourceNode = destNode && destNode.id === sourceNode.parentId;
@@ -299,6 +309,10 @@ export class Scene {
         });
       this.getObsScene().moveItem(currentIdx, item.getItemIndex());
     });
+
+    obs.NodeObs.log('===================================');
+    obs.NodeObs.log('End placeAfter');
+    obs.NodeObs.log('===================================');
   }
 
   placeBefore(sourceNodeId: string, destNodeId: string) {

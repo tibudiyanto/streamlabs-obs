@@ -234,15 +234,15 @@ export class AudioService extends StatefulService<IAudioSourcesState> implements
     let gotEvent = false;
     let lastVolmeterValue: IVolmeter;
     let volmeterCheckTimeoutId: number;
-    this.sourceData[sourceId].callbackInfo = this.sourceData[sourceId].volmeter.addCallback(
-      (magnitude: number[], peak: number[], inputPeak: number[]) => {
-        const volmeter: IVolmeter = { magnitude, peak, inputPeak };
+    // this.sourceData[sourceId].callbackInfo = this.sourceData[sourceId].volmeter.addCallback(
+    //   (magnitude: number[], peak: number[], inputPeak: number[]) => {
+    //     const volmeter: IVolmeter = { magnitude, peak, inputPeak };
 
-        volmeterStream.next(volmeter);
-        lastVolmeterValue = volmeter;
-        gotEvent = true;
-      },
-    );
+    //     volmeterStream.next(volmeter);
+    //     lastVolmeterValue = volmeter;
+    //     gotEvent = true;
+    //   },
+    // );
 
     /* This is useful for media sources since the volmeter will abruptly stop
      * sending events in the case of hiding the source. It might be better

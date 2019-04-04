@@ -158,15 +158,14 @@ export class SelectionService extends StatefulService<ISelectionState> {
     this.getSelection().select.call(this, items);
 
     const scene = this.getScene();
+    const obsScene = scene.getObsScene();
     const activeObsIds = this.getItems().map(sceneItem => sceneItem.obsSceneItemId);
 
-    // tell OBS which sceneItems are selected
-    scene
-      .getObsScene()
-      .getItems()
-      .forEach(obsSceneItem => {
-        obsSceneItem.selected = activeObsIds.includes(obsSceneItem.id);
-      });
+    // Deselect all items
+    obsScene.getItems().forEach(item => (item.selected = false));
+
+    // Select the selected items
+    activeObsIds.forEach(id => (obsScene.findItem(id).selected = true));
 
     this.updated.next(this.state);
   }
