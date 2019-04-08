@@ -188,7 +188,9 @@ export class WindowsService extends StatefulService<IWindowsState> {
       componentName: 'Main',
       scaleFactor: 1,
       isShown: true,
-      title: `Streamlabs OBS - Version: ${remote.process.env.SLOBS_VERSION}`,
+      title: `Streamlabs OBS - Version: ${
+        remote.process.env.SLOBS_VERSION
+      } - LIVE RECENT EVENTS DISABLED`,
     },
     child: {
       componentName: '',
