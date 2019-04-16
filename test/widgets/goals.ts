@@ -5,7 +5,7 @@ import { FormMonkey } from '../helpers/form-monkey';
 import { waitForWidgetSettingsSync } from '../helpers/widget-helpers';
 import { sleep } from '../helpers/sleep';
 
-useSpectron({ appArgs: '--nosync', networkLogging: true });
+useSpectron({ appArgs: '--nosync', networkLogging: true, pauseIfFailed: true });
 
 testGoal('Donation Goal');
 testGoal('Follower Goal');
@@ -45,7 +45,7 @@ function testGoal(goalType: string) {
     await addSource(t, goalType, goalType, false);
 
     await client.click('li=Visual Settings');
-    const formMonkey = new FormMonkey(t, 'form[name=visual-properties-form]');
+    const formMonkey = new FormMonkey(t, 'form[name=visual-properties-form]', true);
 
     const testSet1 = {
       layout: 'standard',
