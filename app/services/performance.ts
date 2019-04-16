@@ -58,8 +58,10 @@ export class PerformanceService extends StatefulService<IPerformanceState> {
           })
           .reduce((sum, usage) => sum + usage);
 
+        stats.CPU += electronCpu;
+
         if (this.measurements != null) {
-          this.measurements.push(electronCpu);
+          this.measurements.push(stats.CPU);
         }
 
         if (this.measurements && this.measurements.length >= 60) {
@@ -70,8 +72,6 @@ export class PerformanceService extends StatefulService<IPerformanceState> {
 
           this.measurements = null;
         }
-
-        stats.CPU += electronCpu;
 
         this.SET_PERFORMANCE_STATS(stats);
       },
