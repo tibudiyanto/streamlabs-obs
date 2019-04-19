@@ -36,21 +36,21 @@
           <div class="row">
             <div class="columns small-4">
               <VFormGroup
-                :title="$t('1-25')"
+                title="1-25"
                 v-model="newGamblePreferences.settings.general.range['1-25']"
                 :metadata="metaData.range1"
               />
             </div>
             <div class="columns small-4">
               <VFormGroup
-                :title="$t('26-50')"
+                title="26-50"
                 v-model="newGamblePreferences.settings.general.range['26-50']"
                 :metadata="metaData.range2"
               />
             </div>
             <div class="columns small-4">
               <VFormGroup
-                :title="$t('51-75')"
+                title="51-75"
                 v-model="newGamblePreferences.settings.general.range['51-75']"
                 :metadata="metaData.range3"
               />
@@ -59,14 +59,14 @@
           <div class="row">
             <div class="columns small-4">
               <VFormGroup
-                :title="$t('76-98')"
+                title="76-98"
                 v-model="newGamblePreferences.settings.general.range['76-98']"
                 :metadata="metaData.range4"
               />
             </div>
             <div class="columns small-4">
               <VFormGroup
-                :title="$t('99-100')"
+                title="99-100"
                 v-model="newGamblePreferences.settings.general.range['99-100']"
                 :metadata="metaData.range5"
               />
@@ -102,31 +102,18 @@
 }
 
 .window-toggle__wrapper {
-  background-color: @day-primary;
+  background-color: var(--background);
   z-index: 1;
   width: 100%;
   padding: 15px;
   padding-left: 0px;
   height: 48px;
-  border-bottom: 1px solid @day-border;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
   text-align: right;
 
   .window-toggle__icon {
     .margin-left();
-  }
-}
-
-.night-theme {
-  .window-toggle__wrapper {
-    background-color: @night-primary;
-    border-color: @night-border;
-  }
-  .loyalty-flex__underline {
-    border-bottom-color: @night-border;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    .margin-bottom(2);
   }
 }
 </style>

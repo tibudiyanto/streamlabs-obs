@@ -1,19 +1,7 @@
 <template>
   <ModalLayout :showControls="false" :customControls="true" :containsTabs="true">
     <div slot="fixed">
-      <div class="row">
-        <div class="small-6 columns position--relative window-tab">
-          <Tabs :tabs="tabs" :value="selectedTab" @input="onSelectTabHandler"></Tabs>
-        </div>
-        <div class="small-6 columns position--relative window-tab">
-          <div class="window-toggle__wrapper">
-            <div @click="onTogglePollPreferencesWindowHandler">
-              <span>{{ $t('Edit Command') }}</span>
-              <i class="fas fa-chevron-right window-toggle__icon"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Tabs :tabs="tabs" :value="selectedTab" @input="onSelectTabHandler"></Tabs>
     </div>
     <div slot="content">
       <validated-form ref="form" class="form_content">
@@ -185,25 +173,18 @@ table {
 }
 
 .window-toggle__wrapper {
-  background-color: @day-primary;
+  background-color: var(--background);
   z-index: 1;
   width: 100%;
   padding: 15px;
   padding-left: 0px;
   height: 48px;
-  border-bottom: 1px solid @day-border;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
   text-align: right;
 
   .window-toggle__icon {
     .margin-left();
-  }
-}
-
-.night-theme {
-  .window-toggle__wrapper {
-    background-color: @night-primary;
-    border-color: @night-border;
   }
 }
 </style>

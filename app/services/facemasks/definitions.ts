@@ -1,5 +1,4 @@
 export interface IFacemasksServiceState {
-  device: IInputDeviceSelection;
   modtimeMap: Dictionary<IFacemaskMetadata>;
   active: boolean;
   downloadProgress: number;
@@ -40,7 +39,7 @@ export interface IFacemaskSettings {
   facemasks: IFacemask[];
   duration: number;
   sub_duration: number;
-  bits_duaration: number;
+  bits_duration: number;
   device: IInputDeviceSelection;
   username: string;
   twitch_id?: number;

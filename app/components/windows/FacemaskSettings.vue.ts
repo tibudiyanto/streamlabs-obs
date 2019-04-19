@@ -32,6 +32,8 @@ interface IFormSettings {
     name: string;
     value: string;
   };
+  sub_duration?: number;
+  bits_duration?: number;
 }
 
 @Component({
@@ -53,10 +55,12 @@ export default class FacemaskSettings extends Vue {
   enabledModel = this.facemasksService.state.settings.enabled;
   donationsEnabledModel = this.facemasksService.state.settings.donations_enabled;
   subsEnabledModel = this.facemasksService.state.settings.subs_enabled;
+  subsDurationModel = this.facemasksService.state.settings.sub_duration;
+  bitsDurationModel = this.facemasksService.state.settings.bits_duration;
   bitsEnabledModel = this.facemasksService.state.settings.bits_enabled;
   bitsPriceModel = this.facemasksService.state.settings.bits_price;
   durationModel = this.facemasksService.state.settings.duration;
-  videoInputModel = this.facemasksService.state.device.value;
+  videoInputModel = this.facemasksService.state.settings.device.value;
   t2AvailableMasks = this.facemasksService.state.settings.t2masks as IFacemaskSelection[];
   t3AvailableMasks = this.facemasksService.state.settings.t3masks as IFacemaskSelection[];
 
@@ -74,10 +78,8 @@ export default class FacemaskSettings extends Vue {
     };
   });
 
-  async handleSubmit() {
-    this.updatingInfo = true;
-
-    const newSettings = {
+  createSettingsObject(): IFormSettings {
+    return {
       enabled: this.enabledModel,
       donations_enabled: this.donationsEnabledModel,
       subs_enabled: this.subsEnabledModel,
@@ -88,11 +90,29 @@ export default class FacemaskSettings extends Vue {
         return device.value === this.videoInputModel;
       })[0],
     };
+  }
 
-    const validatedSettings = this.validateSettings(newSettings);
+  async handleSubmit() {
+    this.updatingInfo = true;
 
-    if (validatedSettings.error) {
-      this.onFailHandler(validatedSettings.message);
+    const newSettings = this.createSettingsObject();
+
+    if (this.showTwitchFeatures) {
+      newSettings.sub_duration = this.subsDurationModel;
+      newSettings.bits_duration = this.bitsDurationModel;
+    }
+
+    if (!newSettings.device) {
+      newSettings.device = {
+        name: null,
+        value: null,
+      };
+    }
+
+    const validationResults = this.validateSettings(newSettings);
+
+    if (validationResults.error) {
+      this.onFailHandler(validationResults.message);
       this.updatingInfo = false;
       return;
     }
@@ -124,7 +144,7 @@ export default class FacemaskSettings extends Vue {
       message = 'Error: Please select a bits price';
     }
 
-    if (!settings.device) {
+    if (!settings.device.value) {
       error = true;
       message = 'Error: Please select a video device';
     }

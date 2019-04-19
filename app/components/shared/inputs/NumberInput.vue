@@ -13,7 +13,7 @@
         :value="displayValue"
         @input="handleInput($event.target.value)"
         @mousewheel="onMouseWheelHandler"
-        :name="uuid"
+        :name="options.uuid"
         v-validate="validate"
         :disabled="options.disabled"
     />
@@ -40,7 +40,7 @@
     .arrows {
       .absolute(0, 8px, 0, auto);
       width: 30px;
-      color: @grey;
+      color: var(--icon);
       opacity: .7;
       cursor: pointer;
       .transition();

@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { mutation, ServiceHelper } from '../stateful-service';
 import Utils from '../utils';
 import { SourcesService, TSourceType, ISource } from 'services/sources';
@@ -21,19 +21,19 @@ import {
   ScenesService,
   Scene,
   ISceneItem,
-  ISceneItemApi,
   ISceneItemInfo,
 } from './index';
 import { SceneItemNode } from './scene-node';
 import { v2, Vec2 } from '../../util/vec2';
 import { Rect } from '../../util/rect';
+import { TSceneNodeType } from './scenes';
 /**
  * A SceneItem is a source that contains
  * all of the information about that source, and
  * how it fits in to the given scene
  */
 @ServiceHelper()
-export class SceneItem extends SceneItemNode implements ISceneItemApi {
+export class SceneItem extends SceneItemNode {
   sourceId: string;
   name: string;
   type: TSourceType;
@@ -52,6 +52,8 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
   visible: boolean;
   locked: boolean;
 
+  sceneNodeType: TSceneNodeType = 'item';
+
   // Some computed attributes
 
   get scaledWidth(): number {
@@ -67,7 +69,7 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
     return this.video && this.width > 0 && this.height > 0 && !this.locked;
   }
 
-  sceneItemState: ISceneItem;
+  state: ISceneItem;
 
   @Inject() protected scenesService: ScenesService;
   @Inject() private sourcesService: SourcesService;
@@ -79,13 +81,13 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
       return item.id === sceneItemId;
     }) as ISceneItem;
     const sourceState = this.sourcesService.state.sources[sourceId];
-    this.sceneItemState = sceneItemState;
+    this.state = sceneItemState;
     Utils.applyProxy(this, sourceState);
-    Utils.applyProxy(this, this.sceneItemState);
+    Utils.applyProxy(this, this.state);
   }
 
   getModel(): ISceneItem & ISource {
-    return { ...this.source.sourceState, ...this.sceneItemState };
+    return { ...this.source.state, ...this.state };
   }
 
   getScene(): Scene {
@@ -121,14 +123,11 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
   setSettings(patch: IPartialSettings) {
     // update only changed settings to reduce the amount of IPC calls
     const obsSceneItem = this.getObsSceneItem();
-    const changed = Utils.getChangedParams(this.sceneItemState, patch);
-    const newSettings = merge({}, this.sceneItemState, patch);
+    const changed = Utils.getChangedParams(this.state, patch);
+    const newSettings = merge({}, this.state, patch);
 
     if (changed.transform) {
-      const changedTransform = Utils.getChangedParams(
-        this.sceneItemState.transform,
-        patch.transform,
-      );
+      const changedTransform = Utils.getChangedParams(this.state.transform, patch.transform);
 
       if (changedTransform.position) {
         obsSceneItem.position = newSettings.transform.position;
@@ -180,19 +179,23 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
   }
 
   nudgeLeft() {
-    this.setTransform({ position: { x: this.transform.position.x - 1 } });
+    this.setDeltaPos('x', -1);
   }
 
   nudgeRight() {
-    this.setTransform({ position: { x: this.transform.position.x + 1 } });
+    this.setDeltaPos('x', 1);
   }
 
   nudgeUp() {
-    this.setTransform({ position: { y: this.transform.position.y - 1 } });
+    this.setDeltaPos('y', -1);
   }
 
   nudgeDown() {
-    this.setTransform({ position: { y: this.transform.position.y + 1 } });
+    this.setDeltaPos('y', 1);
+  }
+
+  setDeltaPos(dir: 'x' | 'y', delta: number) {
+    this.setTransform({ position: { [dir]: this.transform.position[dir] + delta } });
   }
 
   setVisibility(visible: boolean) {
@@ -285,6 +288,13 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
     this.scale(scaleDelta, origin);
   }
 
+  unilateralScale(dimension: 'x' | 'y', scale: number) {
+    const scaleX = dimension === 'x' ? scale : 1;
+    const scaleY = dimension === 'y' ? scale : 1;
+    const scaleDelta = v2(scaleX, scaleY);
+    this.scale(scaleDelta, AnchorPositions[AnchorPoint.NorthWest]);
+  }
+
   flipY() {
     this.preservePosition(() => {
       const rect = this.getRectangle();
@@ -335,10 +345,6 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
     return this.getScene()
       .getItems()
       .findIndex(sceneItemModel => sceneItemModel.id === this.id);
-  }
-
-  protected get state() {
-    return this.sceneItemState;
   }
 
   /**
@@ -433,6 +439,6 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
 
   @mutation()
   private UPDATE(patch: { sceneItemId: string } & IPartialSettings) {
-    merge(this.sceneItemState, patch);
+    merge(this.state, patch);
   }
 }

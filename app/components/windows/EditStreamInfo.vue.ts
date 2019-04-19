@@ -7,7 +7,7 @@ import HFormGroup from 'components/shared/inputs/HFormGroup.vue';
 import { StreamInfoService } from 'services/stream-info';
 import { UserService } from '../../services/user';
 import { Inject } from '../../util/injector';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { getPlatformService, IChannelInfo } from 'services/platforms';
 import { StreamingService } from 'services/streaming';
 import { WindowsService } from 'services/windows';
@@ -397,7 +397,7 @@ export default class EditStreamInfo extends Vue {
   get dateMetadata() {
     return {
       title: $t('Scheduled Date'),
-      dateFormat: 'MM/DD/YYYY',
+      dateFormat: 'MM/dd/yyyy',
       placeholder: 'MM/DD/YYYY',
       description: this.isFacebook
         ? $t(

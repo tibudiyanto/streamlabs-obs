@@ -566,7 +566,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
       this.transitionsService.deleteAllTransitions();
       this.transitionsService.deleteAllConnections();
     } catch (e) {
-      console.error(new Error('Error deloading application state'));
+      console.error('Error deloading application state', e);
     }
 
     this.hotkeysService.clearAllHotkeys();
@@ -664,7 +664,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
   }
 
   private get legacyDirectory() {
-    return path.join(electron.remote.app.getPath('userData'), 'SceneConfigs');
+    return path.join(this.appService.appDataDirectory, 'SceneConfigs');
   }
 
   /**

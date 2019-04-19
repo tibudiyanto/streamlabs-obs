@@ -21,7 +21,7 @@ export { OnboardingService } from 'services/onboarding';
 export { NavigationService } from 'services/navigation';
 export { PerformanceService } from 'services/performance';
 export { PerformanceMonitorService } from 'services/performance-monitor';
-export { SettingsService, StreamEncoderSettingsService } from 'services/settings';
+export { SettingsService, OutputSettingsService } from 'services/settings';
 export { VideoService } from 'services/video';
 export { WindowsService } from 'services/windows';
 export { TransitionsService } from 'services/transitions';
@@ -70,6 +70,7 @@ export {
   ChatbotPollApiService,
   ChatbotBettingApiService,
   ChatbotImporterApiService,
+  ChatbotUserManagementApiService,
 } from 'services/chatbot';
 export { MediaGalleryService } from 'services/media-gallery';
 export { GuestApiService } from 'services/guest-api';
@@ -93,7 +94,7 @@ export { PlatformAppAssetsService } from 'services/platform-apps/platform-app-as
 export { ChatService } from 'services/chat';
 
 // WIDGETS
-export { WidgetSource, WidgetsService, WidgetTester } from './services/widgets';
+export { WidgetSource, WidgetsService } from './services/widgets';
 export { BitGoalService } from 'services/widgets/settings/bit-goal';
 export { ChatBoxService } from 'services/widgets/settings/chat-box';
 export { DonationGoalService } from 'services/widgets/settings/donation-goal';

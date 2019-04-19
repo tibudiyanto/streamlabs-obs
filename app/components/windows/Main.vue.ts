@@ -25,7 +25,7 @@ import { UserService } from 'services/user';
 import { WindowsService } from 'services/windows';
 import LiveDock from '../LiveDock.vue';
 import StudioFooter from '../StudioFooter.vue';
-import CustomLoader from '../CustomLoader.vue';
+import CustomLoader from '../CustomLoader';
 import PatchNotes from '../pages/PatchNotes.vue';
 import DesignSystem from '../pages/DesignSystem.vue';
 import PlatformAppMainPage from '../pages/PlatformAppMainPage.vue';
@@ -88,8 +88,8 @@ export default class Main extends Vue {
     return this.navigationService.state.params;
   }
 
-  get nightTheme() {
-    return this.customizationService.nightMode;
+  get theme() {
+    return this.customizationService.currentTheme;
   }
 
   get applicationLoading() {
@@ -124,6 +124,10 @@ export default class Main extends Vue {
 
   get platformApps() {
     return this.platformAppsService.enabledApps;
+  }
+
+  get errorAlert() {
+    return this.appService.state.errorAlert;
   }
 
   onDropHandler(event: DragEvent) {
@@ -175,7 +179,7 @@ export default class Main extends Vue {
   }
 
   onResizeStartHandler() {
-    this.customizationService.setSettings({ resizingInProgress: true });
+    this.customizationService.setSettings({ hideStyleBlockingElements: true });
   }
 
   onResizeStopHandler(offset: number) {
@@ -183,7 +187,7 @@ export default class Main extends Vue {
     offset = this.leftDock ? offset : -offset;
     this.setWidth(this.customizationService.state.livedockSize + offset);
     this.customizationService.setSettings({
-      resizingInProgress: false,
+      hideStyleBlockingElements: false,
     });
   }
 

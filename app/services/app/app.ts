@@ -32,12 +32,16 @@ import { ObsUserPluginsService } from 'services/obs-user-plugins';
 import { IncrementalRolloutService } from 'services/incremental-rollout';
 import { $t } from '../i18n';
 import { RunInLoadingMode } from './app-decorators';
+import { CustomizationService } from 'services/customization';
+import path from 'path';
+import Utils from 'services/utils';
 
 const crashHandler = window['require']('crash-handler');
 
 interface IAppState {
   loading: boolean;
   argv: string[];
+  errorAlert: boolean;
 }
 
 /**
@@ -60,9 +64,10 @@ export class AppService extends StatefulService<IAppState> {
   static initialState: IAppState = {
     loading: true,
     argv: electron.remote.process.argv,
+    errorAlert: false,
   };
 
-  private autosaveInterval: number;
+  readonly appDataDirectory = electron.remote.app.getPath('userData');
 
   @Inject() transitionsService: TransitionsService;
   @Inject() sourcesService: SourcesService;
@@ -78,6 +83,7 @@ export class AppService extends StatefulService<IAppState> {
   @Inject() private announcementsService: AnnouncementsService;
   @Inject() private obsUserPluginsService: ObsUserPluginsService;
   @Inject() private incrementalRolloutService: IncrementalRolloutService;
+  @Inject() private customizationService: CustomizationService;
   private loadingPromises: Dictionary<Promise<any>> = {};
 
   private pid = require('process').pid;
@@ -85,14 +91,33 @@ export class AppService extends StatefulService<IAppState> {
   @track('app_start')
   @RunInLoadingMode()
   async load() {
+    if (Utils.isDevMode()) {
+      electron.ipcRenderer.on('showErrorAlert', () => {
+        this.SET_ERROR_ALERT(true);
+      });
+    }
+
+    // This is used for debugging
+    window['obs'] = obs;
+
+    // Host a new OBS server instance
+    obs.IPC.host(`slobs-${uuid()}`);
+    obs.NodeObs.SetWorkingDirectory(
+      path.join(
+        electron.remote.app.getAppPath().replace('app.asar', 'app.asar.unpacked'),
+        'node_modules',
+        'obs-studio-node',
+      ),
+    );
+
     crashHandler.registerProcess(this.pid, false);
 
     await this.obsUserPluginsService.initialize();
 
-    // Initialize OBS
+    // Initialize OBS API
     const apiResult = obs.NodeObs.OBS_API_initAPI(
       'en-US',
-      electron.remote.process.env.SLOBS_IPC_USERDATA,
+      this.appDataDirectory,
       electron.remote.process.env.SLOBS_VERSION,
     );
 
@@ -101,8 +126,11 @@ export class AppService extends StatefulService<IAppState> {
       showDialog(message);
 
       crashHandler.unregisterProcess(this.pid);
-      electron.ipcRenderer.send('shutdownComplete');
 
+      obs.NodeObs.StopCrashHandler();
+      obs.IPC.disconnect();
+
+      electron.ipcRenderer.send('shutdownComplete');
       return;
     }
 
@@ -189,6 +217,7 @@ export class AppService extends StatefulService<IAppState> {
    */
   async runInLoadingMode(fn: () => Promise<any> | void) {
     if (!this.state.loading) {
+      this.customizationService.setSettings({ hideStyleBlockingElements: true });
       this.START_LOADING();
 
       // The scene collections window is the only one we don't close when
@@ -196,7 +225,9 @@ export class AppService extends StatefulService<IAppState> {
       if (this.windowsService.state.child.componentName !== 'ManageSceneCollections') {
         this.windowsService.closeChildWindow();
       }
-      this.windowsService.closeAllOneOffs();
+
+      // wait until all one-offs windows like Projectors will be closed
+      await this.windowsService.closeAllOneOffs();
 
       // This is kind of ugly, but it gives the browser time to paint before
       // we do long blocking operations with OBS.
@@ -236,6 +267,11 @@ export class AppService extends StatefulService<IAppState> {
     this.tcpServerService.startRequestsHandling();
     this.sceneCollectionsService.enableAutoSave();
     this.FINISH_LOADING();
+    // Set timeout to allow transition animation to play
+    setTimeout(
+      () => this.customizationService.setSettings({ hideStyleBlockingElements: false }),
+      500,
+    );
     if (error) throw error;
     return returningValue;
   }
@@ -248,6 +284,11 @@ export class AppService extends StatefulService<IAppState> {
   @mutation()
   private FINISH_LOADING() {
     this.state.loading = false;
+  }
+
+  @mutation()
+  private SET_ERROR_ALERT(errorAlert: boolean) {
+    this.state.errorAlert = errorAlert;
   }
 
   @mutation()

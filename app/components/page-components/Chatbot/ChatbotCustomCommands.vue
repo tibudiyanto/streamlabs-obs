@@ -22,13 +22,12 @@
     </div>
 
     <!-- custom commands -->
-    <div v-if="!commands || commands.length === 0" class="chatbot-empty-placeholder__container">
-      <img
-        :src="require(`../../../../media/images/chatbot/chatbot-placeholder-command--${this.nightMode ? 'night' : 'day'}.svg`)"
-        width="200"
-      >
-      <span>{{ $t('Click add command to get started.') }}</span>
-    </div>
+    <empty-section
+      v-if="!commands || commands.length === 0"
+      :variation="'text'"
+      :title="$t('You don\'t have any Commands')"
+      :subtitle="$t('Click Add Command to get started')"
+    ></empty-section>
     <div v-else class="padding--10 margin-horizontal--10">
       <table>
         <thead>
@@ -58,7 +57,7 @@
             <td>{{ $t(command.response) }}</td>
             <td>{{ command.cooldowns.global }}</td>
             <td>{{ command.cooldowns.user }}</td>
-            <td>{{ command.permission ? $t(chatbotPermissionsEnums[command.permission.level]) : '-' }}</td>
+            <td>{{ command.permission ? $t(getPermission(command.permission.level)) : '-' }}</td>
             <td>
               <ToggleInput
                 :value="command.enabled"
@@ -169,13 +168,6 @@ table {
   padding-right: 5px;
 }
 
-.chatbot-empty-placeholder__container {
-  .flex();
-  .flex--column();
-  .flex--center();
-  .padding-vertical--20;
-}
-
 .chatbot-custom-commands__command-actions__container {
   button {
     display: block;
@@ -184,13 +176,6 @@ table {
     &:first-child {
       margin-bottom: 10px;
     }
-  }
-}
-
-.night-theme {
-  .icon-question {
-    .night-icon-hover();
-    padding-left: 3px;
   }
 }
 </style>

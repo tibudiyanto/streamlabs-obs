@@ -1,24 +1,23 @@
 import Vue from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
-import { Prop } from 'vue-property-decorator';
 import uuid from 'uuid/v4';
 import { IInputMetadata } from './index';
 import ValidatedForm from './ValidatedForm.vue';
 import TsxComponent from 'components/tsx-component';
 
-export class BaseInput<TValueType, TMetadataType extends IInputMetadata> extends TsxComponent<{
+export abstract class BaseInput<
+  TValueType,
+  TMetadataType extends IInputMetadata
+> extends TsxComponent<{
   metadata: TMetadataType;
-  value: TValueType;
-  title: string;
+  value?: TValueType;
+  title?: string;
+  onInput?: Function;
 }> {
-  @Prop()
-  readonly value: TValueType;
-
-  @Prop()
-  readonly title: string;
-
-  @Prop({ default: () => ({}) })
-  readonly metadata: TMetadataType;
+  abstract readonly value: TValueType;
+  abstract readonly title: string;
+  abstract readonly metadata: TMetadataType;
+  onInput: Function = null;
 
   /**
    * true if the component listens and re-emits child-inputs events
@@ -28,7 +27,7 @@ export class BaseInput<TValueType, TMetadataType extends IInputMetadata> extends
   /**
    * uuid serves to link input field and validator message
    */
-  readonly uuid = (this.metadata && this.metadata.uuid) || uuid();
+  private readonly uuid = uuid();
 
   /**
    * contains ValidatedForm if exist
@@ -59,6 +58,8 @@ export class BaseInput<TValueType, TMetadataType extends IInputMetadata> extends
 
   emitInput(eventData: TValueType, event?: any) {
     this.$emit('input', eventData, event);
+
+    if (this.onInput) this.onInput(eventData);
 
     const needToSendEventToForm =
       (this.form && !this.parentInput) ||
@@ -91,6 +92,7 @@ export class BaseInput<TValueType, TMetadataType extends IInputMetadata> extends
     const metadata = this.metadata || ({} as TMetadataType);
     const options = cloneDeep(metadata);
     options.title = this.title || metadata.title;
+    options.uuid = metadata.uuid || this.uuid;
     return options;
   }
 

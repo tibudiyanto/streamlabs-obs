@@ -1,6 +1,6 @@
 import VueSlider from 'vue-slider-component';
 import { debounce } from 'lodash-decorators';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import { BaseInput } from './BaseInput';
 import { CustomizationService } from 'services/customization';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -15,6 +15,12 @@ export default class SliderInput extends BaseInput<number, ISliderMetadata> {
   @Inject() customizationService: CustomizationService;
 
   @Prop() readonly value: number;
+  @Watch('value')
+  private syncLocalValue(newVal: number) {
+    this.localValue = newVal;
+  }
+
+  @Prop() readonly title: string;
   @Prop() readonly metadata: ISliderMetadata;
 
   usePercentages: boolean;
@@ -63,8 +69,15 @@ export default class SliderInput extends BaseInput<number, ISliderMetadata> {
     }
   }
 
-  get nightMode() {
-    return this.customizationService.nightMode;
+  get sliderColor() {
+    return {
+      'night-theme': '#253239',
+      'day-theme': '#eaecee',
+    };
+  }
+
+  get theme() {
+    return this.customizationService.currentTheme;
   }
 
   handleKeydown(event: KeyboardEvent) {

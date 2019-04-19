@@ -12,6 +12,8 @@ export default class TextInput extends BaseInput<string, ITextMetadata> {
   @Prop({ default: () => ({}) })
   readonly metadata: ITextMetadata;
 
+  @Prop() readonly title: string;
+
   textVisible = !this.metadata.masked;
 
   toggleVisible() {
@@ -57,9 +59,9 @@ export default class TextInput extends BaseInput<string, ITextMetadata> {
           placeholder={this.options.placeholder}
           value={this.value}
           onInput={(e: { target: { value: string } }) => this.emitInput(e.target.value)}
-          name={this.uuid}
+          name={this.options.uuid}
           v-validate={this.validate}
-          disabled={this.metadata.disabled}
+          disabled={this.options.disabled}
         />
         {this.toggleVisibleButton(h)}
         {this.$slots.default}

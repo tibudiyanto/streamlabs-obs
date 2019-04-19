@@ -130,6 +130,11 @@ export default class LiveDock extends Vue {
     return this.streamInfoService.state.viewerCount.toString();
   }
 
+  get offlineImageSrc() {
+    const mode = this.customizationService.isDarkTheme() ? 'night' : 'day';
+    return require(`../../media/images/sleeping-kevin-${mode}.png`);
+  }
+
   showEditStreamInfo() {
     this.streamingService.showEditStreamInfo();
   }
@@ -137,7 +142,7 @@ export default class LiveDock extends Vue {
   openYoutubeStreamUrl() {
     const platform = this.userService.platform.type;
     const service = getPlatformService(platform);
-    const nightMode = this.customizationService.nightMode ? 'night' : 'day';
+    const nightMode = this.customizationService.isDarkTheme() ? 'night' : 'day';
     const youtubeDomain =
       nightMode === 'day' ? 'https://youtube.com' : 'https://gaming.youtube.com';
     if (service instanceof YoutubeService) {
@@ -188,8 +193,8 @@ export default class LiveDock extends Vue {
     this.chatService.refreshChat();
   }
 
-  get resizingInProgress() {
-    return this.customizationService.state.resizingInProgress;
+  get hideStyleBlockingElements() {
+    return this.customizationService.state.hideStyleBlockingElements;
   }
 
   get hasChatApps() {

@@ -23,13 +23,13 @@
       ref="slider"
       :piecewiseStyle="{
         position: 'absolute',
-        backgroundColor: nightMode ? '#253239' : '#eaecee',
+        backgroundColor: sliderColor[theme],
         height: '2px',
         width: '2px',
         'borderRadius': '1px',
         top: '12px'
     }"
-      :labelStyle="{ color: nightMode ? '#253239' : '#eaecee' }"
+      :labelStyle="{ color: sliderColor[theme]  }"
       :piecewiseActiveStyle="{ backgroundColor: '#3c4c53' }"
       :sliderStyle="options.sliderStyle"
       :dotSize="options.dotSize"
@@ -75,17 +75,17 @@
 
   &:hover {
     .vue-slider-tooltip {
-      color: @navy !important;
+      color: var(--paragraph) !important;
     }
   }
 }
 
 .vue-slider {
-  background-color: @slider-background-color !important;
+  background-color: var(--slider-bg) !important;
 }
 
 .vue-slider-process {
-  background-color: @slider-progress-color !important;
+  background-color: var(--slider-progress) !important;
 }
 
 .vue-slider-dot {
@@ -98,14 +98,14 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: @slider-progress-color;
+    background-color: var(--slider-progress);
   }
 }
 
 .vue-slider-tooltip {
   background-color: transparent !important;
   border: none !important;
-  color: @grey !important;
+  color: var(--title) !important;
   font-size: 13px !important;
   top: 40px !important;
   .transition;
@@ -118,20 +118,6 @@
 .vue-slider-piecewise {
   .vue-slider-piecewise-dot {
     display: none !important;
-  }
-}
-
-.night-theme {
-  .vue-slider {
-    background-color: @night-slider-bg!important;
-  }
-
-  .slider {
-    &:hover {
-      .vue-slider-tooltip {
-        color: @white !important;
-      }
-    }
   }
 }
 </style>

@@ -1,4 +1,3 @@
-import { Prop } from 'vue-property-decorator';
 import { ErrorField } from 'vee-validate';
 import { EInputType, IInputMetadata } from './index';
 import { BaseInput } from './BaseInput';
@@ -7,17 +6,10 @@ import { BaseInput } from './BaseInput';
  * Base class for input-component layouts
  */
 export default abstract class BaseFormGroup extends BaseInput<any, IInputMetadata> {
-  @Prop()
-  readonly type: EInputType;
-
-  @Prop()
-  readonly value: undefined;
-
-  @Prop()
-  readonly metadata: IInputMetadata;
-
-  @Prop()
-  readonly title: string;
+  abstract readonly type: EInputType;
+  abstract readonly value: undefined;
+  abstract readonly metadata: IInputMetadata;
+  abstract readonly title: string;
 
   inputErrors: ErrorField[] = [];
 
@@ -30,7 +22,7 @@ export default abstract class BaseFormGroup extends BaseInput<any, IInputMetadat
 
     // collect errors
     this.form.validated.subscribe(errors => {
-      this.inputErrors = errors.filter(error => error.field === this.uuid);
+      this.inputErrors = errors.filter(error => error.field === this.options.uuid);
     });
   }
 
@@ -49,9 +41,8 @@ export default abstract class BaseFormGroup extends BaseInput<any, IInputMetadat
 
   getOptions() {
     const options = super.getOptions();
-    options.uuid = this.uuid;
+    // add `type` to options
     options.type = this.type || options.type;
-    options.title = this.title || options.title;
     return options;
   }
 }

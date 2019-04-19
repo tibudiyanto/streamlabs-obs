@@ -113,6 +113,13 @@ export default class TopNav extends Vue {
     return this.facemasksService.state.active;
   }
 
+  get facemasksExtensionError() {
+    return (
+      this.facemasksService.state.settings.subs_enabled &&
+      !this.facemasksService.state.settings.extension_enabled
+    );
+  }
+
   openSettingsWindow() {
     this.settingsService.showSettings();
   }
@@ -122,7 +129,9 @@ export default class TopNav extends Vue {
   }
 
   toggleNightTheme() {
-    this.customizationService.nightMode = !this.customizationService.nightMode;
+    const newTheme =
+      this.customizationService.currentTheme === 'night-theme' ? 'day-theme' : 'night-theme';
+    this.customizationService.setTheme(newTheme);
   }
 
   openDiscord() {

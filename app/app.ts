@@ -27,19 +27,6 @@ const slobsVersion = remote.process.env.SLOBS_VERSION;
 const isProduction = process.env.NODE_ENV === 'production';
 const isPreview = !!remote.process.env.SLOBS_PREVIEW;
 
-if (Utils.isMainWindow()) {
-  window['obs'] = window['require']('obs-studio-node');
-
-  {
-    // Set up things for IPC
-    // Connect to the IPC Server
-    window['obs'].IPC.connect(remote.process.env.SLOBS_IPC_PATH);
-    document.addEventListener('close', e => {
-      window['obs'].IPC.disconnect();
-    });
-  }
-}
-
 // This is the development DSN
 let sentryDsn = 'https://8f444a81edd446b69ce75421d5e91d4d@sentry.io/252950';
 
@@ -107,6 +94,7 @@ if (
 }
 
 require('./app.g.less');
+require('./themes.g.less');
 
 // Initiates tooltips and sets their parent wrapper
 Vue.use(VTooltip);
@@ -163,28 +151,47 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// EVENT LOGGING
+if (Utils.isDevMode()) {
+  window.addEventListener('error', () => ipcRenderer.send('showErrorAlert'));
+}
 
+// ERRORS LOGGING
+
+// catch and log unhandled errors/rejected promises:
+electronLog.catchErrors({ onError: e => electronLog.log(`from ${Utils.getWindowId()}`, e) });
+
+// override console.error
 const consoleError = console.error;
 console.error = function(...args: any[]) {
-  logError(args[0]);
+  if (Utils.isDevMode()) ipcRenderer.send('showErrorAlert');
+  writeErrorToLog(...args);
   consoleError.call(console, ...args);
 };
 
-function logError(error: Error | string) {
+/**
+ * Try to serialize error arguments and stack and write them to the log file
+ */
+function writeErrorToLog(...errors: (Error | string)[]) {
   let message = '';
-  let stack = '';
 
-  if (error instanceof Error) {
-    message = error.message;
-    stack = error.stack;
-  } else if (typeof error === 'string') {
-    message = error;
-  }
+  // format error arguments depending on the type
+  const formattedErrors = errors.map(error => {
+    if (error instanceof Error) {
+      message = error.stack;
+    } else if (typeof error === 'string') {
+      message = error;
+    } else {
+      try {
+        message = JSON.stringify(error);
+      } catch (e) {
+        message = 'UNSERIALIZABLE';
+      }
+    }
+    return message;
+  });
 
   // send error to the main process via IPC
   electronLog.error(`Error from ${Utils.getWindowId()} window:
-    ${message}
-    ${stack}
+    ${formattedErrors.join('\n')}
   `);
 }

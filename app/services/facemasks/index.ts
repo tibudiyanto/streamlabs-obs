@@ -21,6 +21,8 @@ import { TObsValue } from 'components/obs/inputs/ObsInput';
 import { $t } from 'services/i18n';
 import { throttle } from 'lodash-decorators';
 import * as Interfaces from './definitions';
+import { AppService } from 'services/app';
+import { propsToSettings } from 'util/obs';
 
 export class FacemasksService extends PersistentStatefulService<Interfaces.IFacemasksServiceState> {
   @Inject() userService: UserService;
@@ -30,6 +32,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   @Inject() sourceFiltersService: SourceFiltersService;
   @Inject() streamingService: StreamingService;
   @Inject() private windowsService: WindowsService;
+  @Inject() appService: AppService;
 
   cdn = `https://${this.hostsService.facemaskCDN}`;
   facemaskFilter: obs.IFilter = null;
@@ -41,7 +44,6 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   downloadProgress = {};
 
   static defaultState: Interfaces.IFacemasksServiceState = {
-    device: { name: null, value: null },
     modtimeMap: {},
     active: false,
     downloadProgress: 0,
@@ -52,7 +54,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
       sub_duration: 8,
       extension_enabled: false,
       bits_enabled: false,
-      bits_duaration: 10,
+      bits_duration: 10,
       bits_price: 500,
       pricing_options: [200, 500, 1000, 2000, 10000],
       primary_platform: 'twitch_account',
@@ -217,7 +219,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
     if (this.registeredBits[bits.eventId] && this.facemaskFilter) {
       const uuid = this.registeredBits[bits.eventId];
       delete this.registeredBits[bits.eventId];
-      this.trigger(uuid, this.state.settings.bits_duaration);
+      this.trigger(uuid, this.state.settings.bits_duration);
     }
   }
 
@@ -255,7 +257,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
       this.startup();
     }
 
-    if (event.type === 'facemaskdonation' && this.shouldQueueDonationEvents) {
+    if (event.type === 'facemaskdonation' && this.shouldQueueDonationEvents()) {
       this.registerDonationEvent({
         facemask: event.message[0].facemask,
         eventId: event.message[0]._id,
@@ -264,7 +266,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
 
     if (
       event.type === 'subscription' &&
-      this.shouldQueueSubscriptionEvents &&
+      this.shouldQueueSubscriptionEvents() &&
       event.message[0].subscriber_twitch_id
     ) {
       this.registerSubscriptionEvent({
@@ -274,7 +276,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
       });
     }
 
-    if (event.type === 'bits' && this.shouldQueueBitsEvents && event.message[0].data) {
+    if (event.type === 'bits' && this.shouldQueueBitsEvents() && event.message[0].data) {
       this.registerBitsEvent({
         facemask: event.message[0].data.facemask,
         eventId: event.message[0].data.fm_id,
@@ -287,11 +289,15 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   }
 
   onAlertPlayingSocketEvent(event: IAlertPlayingSocketEvent) {
-    if (event.message.type === 'donation' && event.message.facemask) {
+    if (
+      event.message.type === 'donation' &&
+      event.message.facemask &&
+      this.shouldQueueDonationEvents()
+    ) {
       this.playDonationEvent({ facemask: event.message.facemask, eventId: event.message._id });
     }
 
-    if (event.message.type === 'subscription' && this.shouldQueueSubscriptionEvents) {
+    if (event.message.type === 'subscription' && this.shouldQueueSubscriptionEvents()) {
       this.playSubscriptionEvent({
         subscriberId: event.message.subscriber_twitch_id,
         subPlan: event.message.sub_plan,
@@ -299,7 +305,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
       });
     }
 
-    if (event.message.type === 'bits' && this.shouldQueueBitsEvents && event.message.data) {
+    if (event.message.type === 'bits' && this.shouldQueueBitsEvents() && event.message.data) {
       this.playBitsEvent({
         facemask: event.message.data.facemask,
         eventId: event.message.data.fm_id,
@@ -348,7 +354,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
       devices[0].selected = true;
     }
 
-    const enabled = this.state.device.value;
+    const enabled = this.state.settings.device.value;
 
     if (enabled) {
       devices.forEach(device => {
@@ -362,7 +368,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
 
   getDeviceStatus() {
     const availableDevices = this.getInputDevicesList();
-    const enabledDeviceId = this.state.device ? this.state.device.value : null;
+    const enabledDeviceId = this.state.settings.device ? this.state.settings.device.value : null;
     const availableDeviceSelected = enabledDeviceId
       ? availableDevices.some(device => {
           return enabledDeviceId === (device.value as string);
@@ -401,7 +407,6 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
     uuids = uuids.concat(t3).concat(t2);
 
     if (settings.device.name && settings.device.value) {
-      this.SET_DEVICE(settings.device.name, settings.device.value);
       this.setupFilter();
     } else {
       this.SET_ACTIVE(false);
@@ -472,7 +477,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   }
 
   getEnabledDevice() {
-    return this.state.device;
+    return this.state.settings.device;
   }
 
   getEnabledStatus() {
@@ -508,11 +513,16 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
     this.updateFilterReference(dshowInputs);
   }
 
+  getMatchingWebcams(dshowInputs: Source[]) {
+    return dshowInputs.filter(videoInput => {
+      const settings = propsToSettings(videoInput.getObsInput().properties);
+      return settings.video_device_id === this.state.settings.device.value;
+    });
+  }
+
   updateFilterReference(dshowInputs: Source[]) {
     if (dshowInputs.length) {
-      const matches = dshowInputs.filter(videoInput => {
-        return videoInput.getObsInput().settings.video_device_id === this.state.device.value;
-      });
+      const matches = this.getMatchingWebcams(dshowInputs);
 
       if (matches.length === 1) {
         const slobsSource = matches[0];
@@ -708,11 +718,6 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   }
 
   @mutation()
-  private SET_DEVICE(name: string, value: string) {
-    this.state.device = { name, value };
-  }
-
-  @mutation()
   private SET_SETTINGS(settings: Interfaces.IFacemaskSettings) {
     this.state.settings = settings;
   }
@@ -733,7 +738,7 @@ export class FacemasksService extends PersistentStatefulService<Interfaces.IFace
   }
 
   private get facemasksDirectory() {
-    return path.join(electron.remote.app.getPath('userData'), 'plugin_config/facemask-plugin');
+    return path.join(this.appService.appDataDirectory, 'plugin_config/facemask-plugin');
   }
 
   private libraryUrl(uuid: string) {

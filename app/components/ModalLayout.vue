@@ -1,5 +1,5 @@
 <template>
-  <div id="mainWrapper" class="modal-layout" :class="{'night-theme': nightTheme}">
+  <div id="mainWrapper" class="modal-layout" :class="theme">
     <div class="ModalLayout-fixed" :style="fixedStyle">
       <slot name="fixed"/>
     </div>
@@ -31,8 +31,8 @@
   height: calc(~'100% - 30px'); // Compensate for titlebar living in ChildWindow
   display: flex;
   flex-direction: column;
-  color: @day-paragraph;
-  background-color: @white;
+  color: var(--paragraph);
+  background-color: var(--background);
 }
 
 .modal-layout--w-side-menu {
@@ -87,7 +87,7 @@
 }
 
 .modal-layout-controls {
-  background-color: @day-section;
+  background-color: var(--section);
   .padding-v-sides();
   .padding-h-sides(2);
   .text-align(@right);
@@ -110,16 +110,5 @@
   flex-grow: 1;
   margin: -16px -16px -16px 0;
   overflow: auto;
-}
-
-.night-theme {
-  &.modal-layout {
-    background-color: @night-bg;
-    color: @night-paragraph;
-  }
-
-  .modal-layout-controls {
-    background-color: @night-section;
-  }
 }
 </style>

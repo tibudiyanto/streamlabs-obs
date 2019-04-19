@@ -66,13 +66,6 @@
   .cursor--pointer;
 }
 
-.chatbot-empty-placeholder__container {
-  .flex();
-  .flex--column();
-  .flex--center();
-  .padding-vertical--20;
-}
-
 tbody tr {
 
   td:nth-child(2) {
@@ -103,15 +96,6 @@ tbody tr {
 
   .icon-more {
     font-size: 15px;
-  }
-}
-
-
-
-.night-theme {
-  .icon-edit,
-  .icon-trash {
-    .night-icon-hover();
   }
 }
 </style>

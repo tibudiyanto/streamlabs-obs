@@ -8,7 +8,7 @@
       @input="handleInput"
       class="text-area radius"
       :class="{ 'full-width': options.fullWidth  }"
-      :name="uuid"
+      :name="options.uuid"
       :disabled="metadata.disabled"
       :rows="metadata.rows || 2"
       v-validate="validate"
@@ -22,7 +22,7 @@
       @input="handleInput"
       class="text-area radius"
       :class="{ 'full-width': options.fullWidth  }"
-      :name="uuid"
+      :name="options.uuid"
       :disabled="metadata.disabled"
       :rows="metadata.rows || 2"
       v-validate="validate"
@@ -40,11 +40,8 @@
   width: 100%;
 }
 
-.night-theme {
-  .text-area:focus {
-    background-color: @night-hover;
-    border-color: @teal-light-opac;
-  }
+.text-area:focus {
+  background-color: var(--hover);
 }
 </style>
 

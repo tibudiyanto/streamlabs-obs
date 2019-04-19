@@ -13,7 +13,7 @@ import {
   ChatbotResponseTypes,
   ChatbotPunishments,
 } from 'services/chatbot';
-
+import pickBy from 'lodash/pickBy';
 import { IListOption } from 'components/shared/inputs';
 
 @Component({
@@ -28,8 +28,8 @@ export default class ChatbotBase extends Vue {
   @Inject() chatbotApiService: ChatbotApiService;
   @Inject() customizationService: CustomizationService;
 
-  get nightMode() {
-    return this.customizationService.nightMode;
+  get isDarkTheme() {
+    return this.customizationService.isDarkTheme();
   }
 
   get chatbotPermissionsEnums() {
@@ -83,5 +83,19 @@ export default class ChatbotBase extends Vue {
         title: punishmentType,
       };
     });
+  }
+
+  getPermission(level: number) {
+    if (level === 1) {
+      return 'Everyone';
+    }
+
+    const permissions = Object.keys(
+      pickBy(ChatbotPermissionsEnums, (value, key) => {
+        return (level & value) === value && value !== ChatbotPermissionsEnums.None;
+      }),
+    ).join(', ');
+
+    return permissions;
   }
 }

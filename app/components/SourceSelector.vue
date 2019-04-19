@@ -46,7 +46,7 @@
       </template>
 
       <template slot="toggle" slot-scope="{ node }">
-        <span v-if="!node.isLeaf && node.children.length">
+        <span v-if="!node.isLeaf">
           <i v-if="node.isExpanded" class="icon-down"></i>
           <i v-if="!node.isExpanded" class="icon-down icon-right"></i>
         </span>
@@ -73,7 +73,7 @@
   text-align: center;
   opacity: .26;
   margin-left: 8px;
-  color: @grey;
+  color: var(--icon);
 }
 
 .fa.disabled,
@@ -91,7 +91,7 @@ i.disabled {
   overflow: auto;
 }
 
-.sl-vue-tree-node {
+.sl-vue-tree-node-item {
   &:hover,
   &.sl-vue-tree-selected {
     .transition();
@@ -99,18 +99,18 @@ i.disabled {
     .source-selector-action {
       .transition();
       opacity: 1;
-      color: @grey;
+      color: var(--icon);
     }
   }
 }
 
 .sl-vue-tree.sl-vue-tree-root {
-  border-color: @day-section;
+  border-color: var(--section);
 }
 
 .title-container {
   display: inline-block;
-  color: @grey;
+  color: var(--icon);
 }
 
 .layer-icon {
@@ -127,16 +127,6 @@ i.disabled {
 }
 
 .title-container {
-  color: @day-title
-}
-
-.night-theme {
-  .title-container {
-    color: @grey;
-  }
-
-  .sl-vue-tree.sl-vue-tree-root {
-    border-color: @night-section;
-  }
+  color: var(--title);
 }
 </style>
