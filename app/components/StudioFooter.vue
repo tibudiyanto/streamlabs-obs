@@ -59,7 +59,8 @@
   position: relative;
   .padding-h-sides(2);
   .padding-v-sides();
-  background-color: var(--section);
+  background-color: var(--background);
+  border-top:1px solid var(--border);
   max-width: none;
   flex: 0 0 auto;
 }
