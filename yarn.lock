@@ -3176,9 +3176,9 @@ cosmiconfig@^5.0.6:
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
 
-"crash-handler@https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v4.1.4-crash-handler.tar.gz":
+"crash-handler@https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.0-crash-handler.tar.gz":
   version "0.0.1"
-  resolved "https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v4.1.4-crash-handler.tar.gz#dde4fc5e7085d4898ebc80dc771efe524802e909"
+  resolved "https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.0-crash-handler.tar.gz#e8abd66540e95cf9bd8cfb739a4b7177b03c5256"
 
 crc32-stream@^2.0.0:
   version "2.0.0"
@@ -3819,9 +3819,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-"electron@https://github.com/stream-labs/electron/releases/download/4.1.4-streamlabs-1/electron-4.1.4-streamlabs-1.tgz":
-  version "4.1.4-streamlabs-1"
-  resolved "https://github.com/stream-labs/electron/releases/download/4.1.4-streamlabs-1/electron-4.1.4-streamlabs-1.tgz#c2b804f65e2606e46ec96032e97d13e5bfb5b13d"
+electron@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.0.tgz#d8352e2c9625b3be0112ce0c1bf5c9b6f692557e"
+  integrity sha512-++emIe4vLihiYiAVL+E8DT5vSNVFEIuQCRxA+VfpDRVBcog85UB28vi4ogRmMOK3UffzKdWV6e1jqp3T0KpBoA==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -4445,9 +4446,9 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-"font-manager@https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v4.1.4-font-manager.tar.gz":
+"font-manager@https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.0-font-manager.tar.gz":
   version "1.0.6"
-  resolved "https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v4.1.4-font-manager.tar.gz#a305a57e0f6b49abe1f9abc115493d92d788f233"
+  resolved "https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.0-font-manager.tar.gz#5a815067c796df9649493b1436f91b34980b2ea5"
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -4558,6 +4559,11 @@ fuse.js@3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.2.1.tgz#6320cb94ce56ec9755c89ade775bcdbb0358d425"
   integrity sha1-YyDLlM5W7JdVyJred1vNuwNY1CU=
+
+fuse.js@^3.2.0, fuse.js@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.4.4.tgz#f98f55fcb3b595cf6a3e629c5ffaf10982103e95"
+  integrity sha512-pyLQo/1oR5Ywf+a/tY8z4JygnIglmRxVUOiyFAbd11o9keUDpUJSMGRWJngcnkURj30kDHPmhoKY8ChJiz3EpQ==
 
 g-status@^2.0.2:
   version "2.0.2"
@@ -6804,9 +6810,9 @@ node-fetch@^1.6.3:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-"node-fontinfo@https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v4.1.4-node-fontinfo.tar.gz":
+"node-fontinfo@https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.0-node-fontinfo.tar.gz":
   version "0.0.10"
-  resolved "https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v4.1.4-node-fontinfo.tar.gz#858452abd808ad7b300d5d61f44d1af33c287e23"
+  resolved "https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.0-node-fontinfo.tar.gz#bc82b67f5852fc1432edc4eb9a344d4c167cc512"
 
 node-libs-browser@^2.0.0:
   version "2.0.0"
@@ -6837,9 +6843,9 @@ node-libs-browser@^2.0.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-"node-libuiohook@https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.10/iojs-v4.1.4-node-libuiohook.tar.gz":
+"node-libuiohook@https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.9/iojs-v5.0.0-node-libuiohook.tar.gz":
   version "0.0.8"
-  resolved "https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.10/iojs-v4.1.4-node-libuiohook.tar.gz#a04704852d80f2708db022289de78e9f6aa49657"
+  resolved "https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.9/iojs-v5.0.0-node-libuiohook.tar.gz#8df1bcb19e30e1aaa230df454f5a7a7a5f6253dd"
 
 node-pre-gyp@^0.10.0:
   version "0.10.0"
@@ -7041,9 +7047,9 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-"obs-studio-node@https://obsstudionodes3.streamlabs.com/obs-studio-node-v0.4.24-iojs-v4.1.4.tar.gz":
+"obs-studio-node@https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2552-iojs-v5.0.0.tar.gz":
   version "0.3.99"
-  resolved "https://obsstudionodes3.streamlabs.com/obs-studio-node-v0.4.24-iojs-v4.1.4.tar.gz#c2aef5c7b633c9fc7a4005f33ca931c639c6bd0b"
+  resolved "https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2552-iojs-v5.0.0.tar.gz#93d401fcb761807bd1e7d55421d18306e9696914"
 
 observable-to-promise@^0.5.0:
   version "0.5.0"
@@ -9014,21 +9020,23 @@ stream-shift@^1.0.0:
   integrity sha1-1cdSgl5TZ+eG944Y5EXqIjoVWVI=
 
 streamlabs-beaker@^0.4.6:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/streamlabs-beaker/-/streamlabs-beaker-0.4.4.tgz#b18bac848c89e8b9a1a6d2d5f586cfb54658afc5"
-  integrity sha512-d6mlYW6bTwVEDIHc0tSEtsyczJtMv+5/x3Oqp79vgL1DAqVyYvRDoszhN9z7MaWrE9X6Jby1JTh/mnlKixIROQ==
+  version "0.4.46"
+  resolved "https://registry.yarnpkg.com/streamlabs-beaker/-/streamlabs-beaker-0.4.46.tgz#3c183cfa7858b32be6761e79d5d2d5fe22767526"
+  integrity sha512-8G6VOPUE/SHbopX+h2I0d563kU+ZqHJRyIR+hg5bW/8Ab3/WoDKWBCcScaM750TNUP6fJD4F9EROrVB32bxsXQ==
   dependencies:
+    fuse.js "^3.4.4"
     google-fonts-webpack-plugin "^0.4.4"
     v-tooltip "^2.0.0-rc.33"
     vue "^2.6.6"
     vue-class-component "^6.0.0"
     vue-color "^2.7.0"
+    vue-fuse "^2.0.2"
     vue-js-modal "^1.3.28"
     vue-mq "^1.0.1"
     vue-property-decorator "^7.0.0"
     vue-router "^3.0.1"
     vue-select "^2.5.1"
-    vue-slider-component "^2.8.0"
+    vue-slider-component "^3.0.31"
     vuejs-paginate "^2.1.0"
 
 string-argv@^0.0.2:
@@ -10195,6 +10203,14 @@ vue-color@2.7.0, vue-color@^2.7.0:
     material-colors "^1.0.0"
     tinycolor2 "^1.1.2"
 
+vue-fuse@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/vue-fuse/-/vue-fuse-2.0.2.tgz#beb18d578052f7027a81edf12e9d3a394ca38d14"
+  integrity sha512-5oLkKy8NX9jX+s2FkkY+1cjATgNcEw/wSLEIhK/5iNAr0deBiSyd8Pu1xJJcZwBai6HEUTFbhqYilfeprQ7m1w==
+  dependencies:
+    fuse.js "^3.2.0"
+    vue "^2.5.17"
+
 vue-hot-reload-api@^2.2.0:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.2.4.tgz#683bd1d026c0d3b3c937d5875679e9a87ec6cd8f"
@@ -10274,7 +10290,7 @@ vue-select@^2.5.1:
   resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.6.0.tgz#362aed6f39bd4deefae1012f63208af77412a7d6"
   integrity sha512-Zg8nb1rWz4RCWnN9Pd+HIOG7s21u32ZGpI9bDVbLJ1JPp5H4mtOww4pesr5vMjV+rHD8cE+NDfn0zZp5loghWQ==
 
-vue-slider-component@2.2.7, vue-slider-component@^2.8.0:
+vue-slider-component@2.2.7, vue-slider-component@^3.0.31:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-2.2.7.tgz#2551696ad01f3246ba48e6cdbb4b4cb70bcc52d6"
   integrity sha1-JVFpatAfMka6SObNu0tMtwvMUtY=
@@ -10319,6 +10335,11 @@ vue@2.6.9, vue@^2.5.11, vue@^2.5.21, vue@^2.6.6:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.9.tgz#415c1cc1a5ed00c8f0acdd0a948139d12b7ea6b3"
   integrity sha512-t1+tvH8hybPM86oNne3ZozCD02zj/VoZIiojOBPJLjwBn7hxYU5e1gBObFpq8ts1NEn1VhPf/hVXBDAJ3X5ljg==
+
+vue@^2.5.17:
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
 vuedraggable@2.8.5:
   version "2.8.5"
