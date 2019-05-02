@@ -160,6 +160,10 @@ function startApp() {
     frame: false,
     title: 'Streamlabs OBS',
     backgroundColor: '#17242D',
+    webPreferences: {
+      nodeIntegration: true,
+      webviewTag: true
+    }
   });
 
   mainWindowState.manage(mainWindow);
@@ -214,6 +218,10 @@ function startApp() {
     show: false,
     frame: false,
     backgroundColor: '#17242D',
+    webPreferences: {
+      nodeIntegration: true,
+      webviewTag: true
+    }
   });
 
   childWindow.setMenu(null);
