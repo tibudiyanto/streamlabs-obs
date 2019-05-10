@@ -3176,9 +3176,9 @@ cosmiconfig@^5.0.6:
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
 
-"crash-handler@https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.0-crash-handler.tar.gz":
+"crash-handler@https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.1-crash-handler.tar.gz":
   version "0.0.1"
-  resolved "https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.0-crash-handler.tar.gz#e8abd66540e95cf9bd8cfb739a4b7177b03c5256"
+  resolved "https://github.com/stream-labs/crash-handler/releases/download/v0.0.28-electron_4/iojs-v5.0.1-crash-handler.tar.gz#b247cea365d3505329e18710922c366da82dd5c8"
 
 crc32-stream@^2.0.0:
   version "2.0.0"
@@ -3819,10 +3819,10 @@ electron-window-state@5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.0.tgz#d8352e2c9625b3be0112ce0c1bf5c9b6f692557e"
-  integrity sha512-++emIe4vLihiYiAVL+E8DT5vSNVFEIuQCRxA+VfpDRVBcog85UB28vi4ogRmMOK3UffzKdWV6e1jqp3T0KpBoA==
+electron@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.1.tgz#6bd7bf4d25e9bfce4cccd629d587fba5281f95cc"
+  integrity sha512-8KksyhAPcpXVeO8ViVGxfZAuf8yEVBCtV0h/lMBD8VFbCQ9icej1K5csCFAGirbZbqOz5IdsBZX9Gpb9n4RCag==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -4446,9 +4446,9 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-"font-manager@https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.0-font-manager.tar.gz":
+"font-manager@https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.1-font-manager.tar.gz":
   version "1.0.6"
-  resolved "https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.0-font-manager.tar.gz#5a815067c796df9649493b1436f91b34980b2ea5"
+  resolved "https://github.com/stream-labs/font-manager/releases/download/v1.0.6/iojs-v5.0.1-font-manager.tar.gz#83d15e0cfb03bfde86c96fb89d71fdab68bdc389"
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -6810,9 +6810,9 @@ node-fetch@^1.6.3:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-"node-fontinfo@https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.0-node-fontinfo.tar.gz":
+"node-fontinfo@https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.1-node-fontinfo.tar.gz":
   version "0.0.10"
-  resolved "https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.0-node-fontinfo.tar.gz#bc82b67f5852fc1432edc4eb9a344d4c167cc512"
+  resolved "https://github.com/stream-labs/node-fontinfo/releases/download/v0.0.10/iojs-v5.0.1-node-fontinfo.tar.gz#2c8d4bff10a5f97f249332e82045cff06829b2d3"
 
 node-libs-browser@^2.0.0:
   version "2.0.0"
@@ -6843,9 +6843,9 @@ node-libs-browser@^2.0.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-"node-libuiohook@https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.9/iojs-v5.0.0-node-libuiohook.tar.gz":
+"node-libuiohook@https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.10/iojs-v5.0.1-node-libuiohook.tar.gz":
   version "0.0.8"
-  resolved "https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.9/iojs-v5.0.0-node-libuiohook.tar.gz#8df1bcb19e30e1aaa230df454f5a7a7a5f6253dd"
+  resolved "https://github.com/stream-labs/node-libuiohook/releases/download/v0.0.10/iojs-v5.0.1-node-libuiohook.tar.gz#e811a9d12289b1ac3d9b9a51116b67b72eb5bba8"
 
 node-pre-gyp@^0.10.0:
   version "0.10.0"
@@ -7047,9 +7047,9 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-"obs-studio-node@https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2552-iojs-v5.0.0.tar.gz":
+"obs-studio-node@https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2625-iojs-v5.0.1.tar.gz":
   version "0.3.99"
-  resolved "https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2552-iojs-v5.0.0.tar.gz#93d401fcb761807bd1e7d55421d18306e9696914"
+  resolved "https://github.com/stream-labs/obs-studio-node/releases/download/v0.4.26-electron_5/obs-studio-node-us-2625-iojs-v5.0.1.tar.gz#5ef181ec9841b1d3fb895f2eb3031cf1a23b6c3c"
 
 observable-to-promise@^0.5.0:
   version "0.5.0"
